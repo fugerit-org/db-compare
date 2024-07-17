@@ -33,7 +33,7 @@ public class TableDiff {
     }
 
     public Collection<ColumnDiff> getColumnDiffs() {
-        List<ColumnDiff> columnDiffs = new ArrayList<ColumnDiff>();
+        List<ColumnDiff> columnDiffs = new ArrayList<>();
         LinkedHashMap<String, ColumnModel> cols1 = new LinkedHashMap<>();
         LinkedHashMap<String, ColumnModel> cols2 = new LinkedHashMap<>();
         SafeFunction.applyIfNotNull( this.getSourceTable(), () -> this.getSourceTable().getColumnList().stream().forEach( c -> cols1.put( c.getName(), c ) ) );

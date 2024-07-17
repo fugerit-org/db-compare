@@ -8,6 +8,8 @@ import java.util.Collection;
 @Slf4j
 public class DBCompareUtils {
 
+    private DBCompareUtils() {}
+
     public static void printDiff( DBCompareOutput output, boolean includeEquals ) {
         if ( output.getTableDiffs().isEmpty() ) {
             log.info( "Source and target have no differences" );
