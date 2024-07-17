@@ -12,7 +12,6 @@ import org.fugerit.java.core.function.SafeFunction;
 import org.fugerit.java.db.compare.diff.TableDiff;
 
 import java.io.InputStream;
-import java.util.LinkedHashMap;
 
 @Slf4j
 public class DBCompareFacade {
@@ -36,7 +35,7 @@ public class DBCompareFacade {
         db1.getTableList().stream().forEach( tableModel1 -> {
             String tableName = tableModel1.getName();
             TableModel tableModel2 = db2.getTableNameMap().get( tableName );
-            output.getTableDiffs().add( new TableDiff( tableModel1, tableModel2 ) );
+            output.getTableDiffs().add( new TableDiff( config, tableModel1, tableModel2 ) );
         } );
         return output;
     }
