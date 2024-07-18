@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
+import java.io.StringWriter;
 import java.sql.Date;
 
 @Slf4j
@@ -53,6 +54,10 @@ class TestDBCompareFacade {
             // print exclude equals
             log.info( "\nDiff (exclude equals)" );
             DBCompareUtils.printDiff( output, false );
+            try (StringWriter writer = new StringWriter()) {
+                DBCompareUtils.toJsonDoc( output, false, writer );
+                log.info( "json doc \n{}", writer.toString() );
+            }
         }
     }
 }
