@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+
+- fj-version 8.6.4
+
 ### Fixed
 
 - default DBCompareConfig when reading yaml
