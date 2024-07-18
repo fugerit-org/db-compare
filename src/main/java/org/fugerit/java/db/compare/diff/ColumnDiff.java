@@ -14,19 +14,9 @@ public class ColumnDiff {
         this.sourceColumn = sourceColumn;
         this.targetColumn = targetColumn;
         if ( DBCompareConfig.COLUMN_COMPARE_MODE_JAVATYPE.equals( this.config.getColumnCompareMode() ) ) {
-            this.comparator = new Comparator<ColumnModel>() {
-                @Override
-                public int compare(ColumnModel o1, ColumnModel o2) {
-                    return o1.getTypeSql()-o2.getTypeSql();
-                }
-            };
+            this.comparator = ( o1, o2 ) -> o1.getTypeSql()-o2.getTypeSql();
         } else {
-            this.comparator = new Comparator<ColumnModel>() {
-                @Override
-                public int compare(ColumnModel o1, ColumnModel o2) {
-                    return o1.getJavaType().compareTo( o2.getJavaType() );
-                }
-            };
+            this.comparator = ( o1, o2 ) -> o1.getJavaType().compareTo( o2.getJavaType() );
         }
     }
 

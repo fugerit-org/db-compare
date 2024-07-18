@@ -53,7 +53,7 @@ public class DBCompareUtils {
                     createCell( "Target table" ), createCell( "Target column" ), createCell( "Note" ) ) );
             rows.add( headerRow );
             // data rows
-            
+
             outputTable.put( "_e", rows );
             MAPPER.writerWithDefaultPrettyPrinter().writeValue( writer, doc );
         });
