@@ -13,7 +13,7 @@
 
 	<name>db.compare</name>
 	<description>Tool for database schema comparison</description>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 
 	<licenses>
 		<license>
