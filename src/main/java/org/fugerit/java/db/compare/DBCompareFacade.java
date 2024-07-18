@@ -9,6 +9,7 @@ import org.fugerit.java.core.db.metadata.DataBaseModel;
 import org.fugerit.java.core.db.metadata.MetaDataUtils;
 import org.fugerit.java.core.db.metadata.TableModel;
 import org.fugerit.java.core.function.SafeFunction;
+import org.fugerit.java.core.util.ObjectUtils;
 import org.fugerit.java.db.compare.diff.TableDiff;
 
 import java.io.InputStream;
@@ -19,7 +20,7 @@ public class DBCompareFacade {
     private ObjectMapper mapper = new YAMLMapper();
 
     public DBCompareConfig readConfig(InputStream is) {
-        return SafeFunction.get( () -> mapper.readValue( is, DBCompareConfig.class ) );
+        return ObjectUtils.objectWithDefault( SafeFunction.get( () -> mapper.readValue( is, DBCompareConfig.class ) ), new DBCompareConfig() );
     }
 
     public DBCompareOutput compare(DBCompareConfig config, ConnectionFactory cf1, String schema1, ConnectionFactory cf2, String schema2 ) {
