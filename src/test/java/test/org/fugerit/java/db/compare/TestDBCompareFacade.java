@@ -1,8 +1,10 @@
 package test.org.fugerit.java.db.compare;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.fugerit.java.core.db.connect.ConnectionFactoryCloseable;
+import org.fugerit.java.core.db.connect.ConnectionFactory;
 import org.fugerit.java.core.db.connect.ConnectionFactoryImpl;
+import org.fugerit.java.core.db.connect.SingleConnectionFactory;
 import org.fugerit.java.core.db.metadata.ColumnModel;
 import org.fugerit.java.core.lang.helpers.ClassHelper;
 import org.fugerit.java.core.util.PropsIO;
@@ -16,6 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.sql.Connection;
 import java.sql.Date;
 
 @Slf4j
@@ -41,9 +44,11 @@ class TestDBCompareFacade {
 
     @Test
     void test1() throws Exception {
-        try ( InputStream configIs = ClassHelper.loadFromDefaultClassLoader( "config/db-compare-config.yaml" );
-              ConnectionFactoryCloseable cf1 = ConnectionFactoryImpl.wrap( ConnectionFactoryImpl.newInstance(PropsIO.loadFromClassLoaderSafe( "config/db1.properties" ) ) );
-              ConnectionFactoryCloseable cf2 = ConnectionFactoryImpl.wrap( ConnectionFactoryImpl.newInstance(PropsIO.loadFromClassLoaderSafe( "config/db2.properties" ) ) )) {
+        try (InputStream configIs = ClassHelper.loadFromDefaultClassLoader( "config/db-compare-config.yaml" );
+             Connection conn1 = ConnectionFactoryImpl.newInstance(PropsIO.loadFromClassLoaderSafe( "config/db1.properties" ) ).getConnection();
+              Connection conn2 = ConnectionFactoryImpl.newInstance(PropsIO.loadFromClassLoaderSafe( "config/db2.properties" ) ).getConnection() ) {
+            ConnectionFactory cf1 = new SingleConnectionFactory( conn1 );
+            ConnectionFactory cf2 = new SingleConnectionFactory( conn2 );
             DBCompareConfig config = this.facade.readConfig( configIs );
             String schema = "PUBLIC";
             DBCompareOutput output = this.facade.compare( config, cf1, schema, cf2, schema );
@@ -58,6 +63,7 @@ class TestDBCompareFacade {
                 DBCompareUtils.toJsonDoc( output, false, writer );
                 log.info( "json doc \n{}", writer.toString() );
             }
+            log.info( "output json : {}", new ObjectMapper().writerWithDefaultPrettyPrinter().writeValueAsString( output ) );
         }
     }
 }
