@@ -43,3 +43,4 @@ Sample usage :
         }
 ```
 
+NOTE: Compare two data sources.
